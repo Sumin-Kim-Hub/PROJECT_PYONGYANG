@@ -5,7 +5,7 @@ extends Control
 
 const Flags = preload("res://scripts/data/feature_flags.gd")
 const D = preload("res://scripts/v3/v3_data.gd")
-const FONT_PATH: String = "res://assets/fonts/ui_ko.ttf"
+const FONT_PATH: String = "res://assets/fonts/NanumGothic.ttf"
 
 signal cards_finished
 
