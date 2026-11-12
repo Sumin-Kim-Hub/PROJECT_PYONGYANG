@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 3.0.5 — 2026-11-12 한글 글꼴 수정 (Godot 4.7.2 로 헤드리스 검사·웹 내보내기·PC 크롬 실행 확인)
+- 원인 1: V3.0.4 까지 코드가 찾던 `assets/fonts/ui_ko.otf` 는 존재하지 않아 기본 글꼴로 돌아감 → 웹(시스템 글꼴 없음)에서 한글이 □. 웹 워크플로는 `ui_ko.ttf` 로 받아 확장자도 달랐음.
+- 원인 2: 이후 시도에서 project.godot `gui/theme/custom(_font)` 로 .ttf 를 엔진 시작 시 읽게 해, 가져오기 전(.godot/ 없음)에 `No loader found`·Theme ext_resource 오류 → godot-check 1단계 실패.
+- 원인 3: 이후 시도에서 GDScript 4곳에 `\"Node\"` (역슬래시 따옴표), v3_ui.gd 에 탭/공백 혼용 → `Parse Error: Expected new line after "\"`. (`tools/godot_check.sh` 자체의 bash 문법은 정상)
+- 수정: 6개 UI 스크립트를 V3.0.4 원본으로 되돌리고 글꼴 경로만 `NanumGothic.ttf` 로. `project.godot` 의 `[gui]` 제거, 자동 로드 `KoreanFontEnforcer` 가 Theme 을 읽어 전역 기본 글꼴 지정(Label3D 포함). `NanumGothic.ttf.import`·`OFL.txt` 추가, 중복 `ui_ko.ttf` 삭제. 웹 워크플로의 글꼴 내려받기 단계 → 포함 파일 확인으로 교체. `godot_check.sh` 에 한글 글꼴 적용 로그 검사 추가.
+- 확인: 깨끗한 복사본에서 `tools/godot_check.sh` 통과(자체 점검 48/0/0, V3.0.4 와 같은 게임 로그), Web 내보내기 성공, PC 크롬(소프트웨어 렌더링)에서 시작 화면 한글 정상 표시(수정 전 빌드는 □). 실제 안드로이드/아이폰 브라우저는 미확인.
+
 ## 3.0.4 — 2026-11-12 웹(HTML5) 배포 준비 2차 (**웹 빌드 생성·실행 0회, 미검증**)
 - 변경(GDScript 1곳): `scripts/v1/game_settings.gd` — `OS.has_feature("web")` 이고 설정 파일이 없을 때만 저사양 기본값(품질0·그림자 끔·시민4·차량4·시야보통·경찰3). 앱/PC 동작 불변.
 - 설정: `export_presets.cfg` 모바일 텍스처 압축 켬 + 세로 화면이면 "가로로 눕혀 주세요" 안내(head_include).

@@ -42,23 +42,14 @@ var _look_touch: int = -1
 
 
 func _ready() -> void:
-    mouse_filter = Control.MOUSE_FILTER_IGNORE
-    set_anchors_preset(Control.PRESET_FULL_RECT)
-    _font = ThemeDB.fallback_font
-	if ClassDB.class_exists(\"Node\"):
-		var _kfe = load(\"res://scripts/core/korean_font_enforcer.gd\")
-		if _kfe:
-			_font = _kfe.get_korean_font()
+	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	set_anchors_preset(Control.PRESET_FULL_RECT)
+	_font = ThemeDB.fallback_font
+	if ResourceLoader.exists(FONT_PATH):
+		var f = load(FONT_PATH)
+		if f is Font:
+			_font = f
 
-    print("[KFONT] path=", FONT_PATH)
-    print("[KFONT] exists=", ResourceLoader.exists(FONT_PATH))
-
-    if ResourceLoader.exists(FONT_PATH):
-        var f = load(FONT_PATH)
-        print("[KFONT] loaded=", f is Font)
-        if f is Font:
-            _font = f
-            print("[KFONT] Korean glyph=", _font.has_char(0xD55C))
 
 func setup(man_ref, gov_ref, build_ref) -> void:
 	man = man_ref

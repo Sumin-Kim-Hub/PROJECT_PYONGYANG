@@ -137,7 +137,7 @@ version, game(inventory, flags, quests, discovered), minutes, pos[x,y,z], yaw, l
 - **그래픽 모듈 전부 실행 미검증** (특히 UV/법선 방향, 텍스처 생성 시간, 가로등 위치 검출, 건물 판별 규칙이 사용자 배치와 맞는지)
 - 스키닝 없음(관절 겹침), 카메라 개선 없음, 실내 조명 그대로, 평양 실제 랜드마크 아님
 - **신규 코드 전부 실행 미검증**
-- 한글 글꼴: 기본 폰트의 한글 지원은 기기마다 다를 수 있음. 안 나오면 res://assets/fonts/ui_ko.otf 를 넣으면 자동 사용
+- 한글 글꼴: res://assets/fonts/NanumGothic.ttf 포함. 자동 로드 KoreanFontEnforcer 가 Theme(assets/theme/default_korean_theme.tres)을 읽어 ThemeDB.fallback_font 와 엔진 기본 Theme 의 default_font 로 지정 (project.godot 의 gui/theme/custom 은 가져오기 전에 읽혀 오류가 나므로 쓰지 않음)
 - 플레이어/NPC는 레이어 1이라 실내에서도 태양빛을 받음 (낮에는 실내 캐릭터가 조금 밝을 수 있음)
 - 밤에 NPC는 "집" 위치에서 사라질 뿐 건물로 걸어 들어가지 않음
 - 추가 건물은 장식 (문 안 열림)

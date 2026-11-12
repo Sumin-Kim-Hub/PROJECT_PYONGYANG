@@ -32,12 +32,11 @@ jobs:
           unzip -q templates.tpz -d tpl
           mv tpl/templates/* "$HOME/.local/share/godot/export_templates/${GODOT_VERSION}.stable/"
           godot --version
-      - name: 한글 폰트 준비
+      - name: 한글 폰트 확인 (저장소에 포함된 NanumGothic.ttf, OFL)
         run: |
-          mkdir -p assets/fonts
-          curl -fsSL https://raw.githubusercontent.com/google/fonts/main/ofl/nanumgothic/NanumGothic-Regular.ttf -o assets/fonts/ui_ko.ttf
-          curl -fsSL https://raw.githubusercontent.com/google/fonts/main/ofl/nanumgothic/OFL.txt -o assets/fonts/OFL.txt
-          test -s assets/fonts/ui_ko.ttf
+          test -s assets/fonts/NanumGothic.ttf
+          test -s assets/fonts/NanumGothic.ttf.import
+          test -s assets/theme/default_korean_theme.tres
       - name: 리소스 가져오기 (실패해도 계속)
         run: godot --headless --path . --import 2>&1 | tail -n 60 || true
       - name: 웹으로 내보내기

@@ -166,7 +166,7 @@
 ## 느릴 때 / 문제가 있을 때
 - `scripts/data/feature_flags.gd` 에서 값을 바꾸세요: `CROWD_COUNT = 4`, `EXTRA_BUILDINGS = 4`, `ENABLE_VEHICLES = false`, 특정 기능을 `false` 로 끄면 나머지는 그대로 실행됩니다. (예: `ENABLE_INTERACTION = false` 면 v0.0.1 상태로 돌아갑니다)
 - 그림자 끄기: `scripts/game_config.gd` 의 `SHADOWS = false`, `TARGET_FPS = 30`
-- 한글이 깨지면 한글 글꼴(.otf/.ttf, 라이선스 확인)을 `res://assets/fonts/ui_ko.otf` 이름으로 넣으면 자동 사용됩니다.
+- 한글 글꼴: `res://assets/fonts/NanumGothic.ttf`(나눔고딕, SIL OFL — `assets/fonts/OFL.txt`)가 포함되어 있고, 자동 로드 `KoreanFontEnforcer`(`scripts/core/korean_font_enforcer.gd`)가 `assets/theme/default_korean_theme.tres` 를 읽어 게임 전체(HUD·버튼·Label3D) 기본 글꼴로 지정합니다. 웹 버전은 시스템 글꼴을 쓸 수 없어 이 파일이 없으면 한글이 □ 로 나옵니다.
 - 디버그 글씨(좌상단)를 끄려면 `SHOW_DEBUG_STATE = false`.
 
 ## APK 만들기 (아직 검증 안 됨)

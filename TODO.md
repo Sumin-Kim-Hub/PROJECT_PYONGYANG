@@ -82,7 +82,7 @@
 - [ ] **V2.0_FIXED ZIP 적용 후 첫 실행 → 빨간 오류 글씨 수집** (이미 손본 보호 5개 파일이 있으면 그것만 덮어쓰지 않기)
 - [ ] 의심 순서: v1_manager → landmarks/lm_kit → drive_system/drivable → alert_system → social_system → interior_extra → v1_hud → game_settings. 안 뜨면 feature_flags.gd 의 해당 V1_ 줄만 false
 - [ ] 그래도 안 뜨면 `ENABLE_V1 = false` (v0.2.0 상태) → `ENABLE_GFX = false` (v0.1.0 상태) → `ENABLE_INTERACTION = false` (v0.0.1 상태) 순서로 내려가며 어디서 깨지는지 확인
-- [ ] 한글이 □로 나오는지 → 나오면 `res://assets/fonts/ui_ko.otf` 추가 (라이선스 확인)
+- [x] 한글이 □로 나오는지 → V3.0.5 에서 `assets/fonts/NanumGothic.ttf`(OFL) 포함, 웹 빌드(PC 크롬)에서 한글 표시 확인. 실제 폰 브라우저는 미확인
 - [ ] FPS 30 이상 (설정 > 저사양 모드, CROWD_COUNT, 교통 수)
 - [ ] **APK 내보내기 시험** (미확인)
 

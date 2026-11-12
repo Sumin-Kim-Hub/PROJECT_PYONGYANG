@@ -43,10 +43,6 @@ var _font: Font = null
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_font = ThemeDB.fallback_font
-	if ClassDB.class_exists(\"Node\"):
-		var _kfe = load(\"res://scripts/core/korean_font_enforcer.gd\")
-		if _kfe:
-			_font = _kfe.get_korean_font()
 	# 한글이 네모로 나올 경우를 대비한 선택 사항: 이 경로에 한글 글꼴을 넣으면 자동 사용
 	if ResourceLoader.exists(FONT_PATH):
 		var f = load(FONT_PATH)
