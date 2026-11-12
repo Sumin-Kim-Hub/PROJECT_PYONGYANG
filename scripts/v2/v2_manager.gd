@@ -132,7 +132,7 @@ func _build_fps_label() -> void:
 	_fps_label.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
 	_fps_label.add_theme_constant_override("outline_size", 5)
 	_fps_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var path: String = "res://assets/fonts/ui_ko.otf"
+	var path: String = "res://assets/fonts/ui_ko.ttf"
 	if ResourceLoader.exists(path):
 		var f = load(path)
 		if f is Font:
