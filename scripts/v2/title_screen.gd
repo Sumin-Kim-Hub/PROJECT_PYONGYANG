@@ -17,6 +17,10 @@ var _done: bool = false
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_font = ThemeDB.fallback_font
+	if ClassDB.class_exists(\"Node\"):
+		var _kfe = load(\"res://scripts/core/korean_font_enforcer.gd\")
+		if _kfe:
+			_font = _kfe.get_korean_font()
 	var path: String = "res://assets/fonts/NanumGothic.ttf"
 	if ResourceLoader.exists(path):
 		var f = load(path)

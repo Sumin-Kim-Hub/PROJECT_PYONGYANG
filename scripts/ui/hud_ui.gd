@@ -43,11 +43,7 @@ var _font: Font = null
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_font = ThemeDB.fallback_font
-	if ResourceLoader.exists(FONT_PATH):
-		var f = load(FONT_PATH)
-		if f is Font:
-			_font = f
+	_font = _load_kr_font_safe(FONT_PATH)
 
 
 func panel_open() -> bool:
@@ -538,3 +534,16 @@ func _draw_settings(font: Font, p: Rect2) -> void:
 	for i in range(lines.size()):
 		var col: Color = Color(1.0, 0.86, 0.45) if i == 0 else Color(1, 1, 1, 0.85)
 		draw_string(font, Vector2(tx, p.position.y + 110.0 + float(i) * 34.0), str(lines[i]), HORIZONTAL_ALIGNMENT_LEFT, -1.0, 20 if i > 0 else 24, col)
+
+
+func _load_kr_font_safe(path: String) -> Font:
+	if ResourceLoader.exists(path):
+		var f = load(path)
+		if f is Font and f.has_char(0xD55C):
+			return f
+	if FileAccess.file_exists(path):
+		var ff := FontFile.new()
+		if ff.load_dynamic_font(path) == OK and ff.has_char(0xD55C):
+			return ff
+	push_error("[FontLoader] Failed to load Korean font: " + path)
+	return ThemeDB.fallback_font

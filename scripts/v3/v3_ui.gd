@@ -45,6 +45,10 @@ func _ready() -> void:
     mouse_filter = Control.MOUSE_FILTER_IGNORE
     set_anchors_preset(Control.PRESET_FULL_RECT)
     _font = ThemeDB.fallback_font
+	if ClassDB.class_exists(\"Node\"):
+		var _kfe = load(\"res://scripts/core/korean_font_enforcer.gd\")
+		if _kfe:
+			_font = _kfe.get_korean_font()
 
     print("[KFONT] path=", FONT_PATH)
     print("[KFONT] exists=", ResourceLoader.exists(FONT_PATH))
