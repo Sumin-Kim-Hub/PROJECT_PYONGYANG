@@ -12,7 +12,7 @@ signal menu_action(id: String)
 const ItemData = preload("res://scripts/data/item_data.gd")
 const QuestData = preload("res://scripts/data/quest_data.gd")
 const Flags = preload("res://scripts/data/feature_flags.gd")
-const FONT_PATH: String = "res://assets/fonts/ui_ko.otf"
+const FONT_PATH: String = "res://assets/fonts/NanumGothic.ttf"
 ## 설정 화면의 항목 id (hub → v1_manager.on_menu_action 이 처리)
 const SETTING_ROWS: Array = ["setting:gfx_quality", "setting:gfx_enabled", "setting:shadows", "setting:crowd", "setting:traffic", "setting:minimap", "setting:weather", "setting:fps", "setting:view", "setting:lowend"]
 

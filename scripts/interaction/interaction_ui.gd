@@ -12,7 +12,7 @@ signal advance_pressed
 signal close_pressed
 
 const BTN_RADIUS: float = 58.0
-const FONT_PATH: String = "res://assets/fonts/ui_ko.otf"
+const FONT_PATH: String = "res://assets/fonts/NanumGothic.ttf"
 
 var fade_alpha: float = 0.0:
 	set(value):

@@ -17,7 +17,7 @@ var _done: bool = false
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_font = ThemeDB.fallback_font
-	var path: String = "res://assets/fonts/ui_ko.otf"
+	var path: String = "res://assets/fonts/NanumGothic.ttf"
 	if ResourceLoader.exists(path):
 		var f = load(path)
 		if f is Font:
