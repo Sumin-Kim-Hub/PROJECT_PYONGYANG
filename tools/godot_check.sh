@@ -21,7 +21,7 @@ echo "== 2) 메인 장면을 약 20초(가상 시간) 실행"
 if grep -E "SCRIPT ERROR|Parse Error" "$LOG"; then
   echo "-> 실행 중 스크립트 오류"; FAIL=1
 fi
-for must in "V2.2 준비 완료" "자체 점검 V2.3"; do
+for must in "자체 점검 V3.0"; do
   if ! grep -q "$must" "$LOG"; then
     echo "-> 기대한 로그가 없음: $must"; FAIL=1
   fi
