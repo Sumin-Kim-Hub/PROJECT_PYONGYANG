@@ -1,0 +1,18 @@
+# Secrets - never commit
+.env
+.env.*
+!.env.example
+# Local data and logs (personal data lives only on the machine)
+data/*
+!data/.gitkeep
+logs/*
+!logs/.gitkeep
+*.db
+*.sqlite3
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+*.egg-info/

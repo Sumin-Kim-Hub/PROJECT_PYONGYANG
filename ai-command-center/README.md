@@ -23,4 +23,26 @@
 ## 상태
 
 - 설계 단계 완료: 2026-11-12
-- 실제로 구현된 기능: **아직 없음** (코드 0줄)
+- 실제로 구현된 기능: ROADMAP 1~3단계 기반 코드 (상세: [STATUS.md](STATUS.md))
+- 다음 세션 시작: [RESUME.md](RESUME.md) · 저장소 이전: [MIGRATION.md](MIGRATION.md)
+
+## 개발·실행 방법 (v0.1.0)
+
+```bash
+# 설치 (Linux/macOS)        Windows: powershell -ExecutionPolicy Bypass -File scripts\windows\setup.ps1
+bash scripts/setup.sh
+# 자주 쓰는 명령
+python -m app selftest        # 오프라인 자체 점검
+python -m app serve           # API 서버 (127.0.0.1:8000)
+python -m pytest              # 테스트
+```
+
+| 폴더 | 내용 |
+|---|---|
+| `app/` | 본체: 설정, DB, 작업·승인, AI 라우터, Telegram, API |
+| `tests/` | 자동 테스트 |
+| `scripts/` | 설치·실행 스크립트 (Windows 포함) |
+| `.github/workflows/` | CI·Telegram 점검 (새 저장소로 이전 후 활성화) |
+| `data/`, `logs/` | 로컬 전용 (GitHub에 올라가지 않음) |
+
+환경 설정: `.env.example` 을 `.env` 로 복사해 채웁니다. **`.env` 는 절대 GitHub에 올리지 않습니다.**

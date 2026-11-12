@@ -1,0 +1,31 @@
+# Manual "is Telegram connected?" check. Run from GitHub app: Actions > telegram-test > Run workflow.
+# Needs repository secrets TELEGRAM_BOT_TOKEN and TELEGRAM_ALLOWED_USER_IDS.
+# NOTE: only active once this folder is the ROOT of its own repository (see MIGRATION.md).
+name: telegram-test
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "check | whoami | send-test | poll-once"
+        default: "check"
+permissions:
+  contents: read
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    env:
+      APP_ENV: prod
+      TELEGRAM_DRY_RUN: "false"
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_ALLOWED_USER_IDS: ${{ secrets.TELEGRAM_ALLOWED_USER_IDS }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install -r requirements.txt
+      - name: Run telegram-${{ inputs.action }}
+        run: |
+          case "${{ inputs.action }}" in
+            check|whoami|send-test|poll-once) python -m app "telegram-${{ inputs.action }}" ;;
+            *) echo "unknown action"; exit 2 ;;
+          esac

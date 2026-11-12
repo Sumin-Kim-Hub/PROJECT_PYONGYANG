@@ -1,0 +1,19 @@
+# Runs tests + secret scan on every push/PR.
+# NOTE: only active once this folder is the ROOT of its own repository (see MIGRATION.md).
+name: ci
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install -r requirements.txt
+      - run: python -m pytest
+      - uses: gitleaks/gitleaks-action@v2   # free for personal accounts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

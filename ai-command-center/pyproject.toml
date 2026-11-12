@@ -1,0 +1,20 @@
+[project]
+name = "ai-command-center"
+version = "0.1.0"
+description = "MY PERSONAL AI COMMAND CENTER - personal automation core"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi>=0.115,<1",
+  "uvicorn>=0.30,<1",
+  "httpx>=0.27,<1",
+  "pydantic-settings>=2.4,<3",
+  "tzdata>=2024.1",  # Windows has no system timezone DB
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+pythonpath = ["."]
