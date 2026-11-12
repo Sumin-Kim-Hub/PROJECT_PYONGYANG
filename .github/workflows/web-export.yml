@@ -1,0 +1,87 @@
+# 브라우저에서 바로 실행되는 웹 버전을 만들어 (1) itch.io 용 ZIP 으로 보관하고 (2) GitHub Pages 로도 올리는 워크플로.
+# 한 번도 실행해 보지 못했습니다 (미검증). 확인되지 않은 부분:
+#  (1) 다운로드 주소/폴더 이름이 4.7.2 에 맞는지  (2) 헤드리스 내보내기가 이 프로젝트에서 끝까지 되는지
+#  (3) PC 크롬 점검(tools/web_smoke_test.py)이 통과하는지  (4) 만들어진 웹 버전이 실제 아이폰/안드로이드 브라우저에서 도는지 — 이건 이 워크플로로는 확인할 수 없음
+# 사용법: docs/WEB_PLAY_GUIDE.md , docs/WEB_ITCH_DEPLOY.md
+name: web-export
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: true
+env:
+  GODOT_VERSION: "4.7.2"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Godot 와 내보내기 템플릿 내려받기
+        run: |
+          set -e
+          BASE="https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable"
+          curl -fsSL -o godot.zip "${BASE}/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip"
+          curl -fsSL -o templates.tpz "${BASE}/Godot_v${GODOT_VERSION}-stable_export_templates.tpz"
+          unzip -q godot.zip
+          sudo mv "Godot_v${GODOT_VERSION}-stable_linux.x86_64" /usr/local/bin/godot
+          mkdir -p "$HOME/.local/share/godot/export_templates/${GODOT_VERSION}.stable"
+          unzip -q templates.tpz -d tpl
+          mv tpl/templates/* "$HOME/.local/share/godot/export_templates/${GODOT_VERSION}.stable/"
+          godot --version
+      - name: 리소스 가져오기 (실패해도 계속)
+        run: godot --headless --path . --import 2>&1 | tail -n 60 || true
+      - name: 웹으로 내보내기
+        run: |
+          set -e
+          mkdir -p build/web
+          godot --headless --path . --export-release "Web" build/web/index.html 2>&1 | tee export_log.txt
+          ls -la build/web
+          test -f build/web/index.html
+          ls build/web/*.wasm build/web/*.pck
+          touch build/web/.nojekyll
+      - name: 스크립트 오류 로그 확인 (참고용, 실패로 처리하지 않음)
+        run: grep -nE "SCRIPT ERROR|Parse Error|ERROR:" export_log.txt | head -n 40 || echo "내보내기 로그에 오류 줄 없음"
+      - name: PC 크롬(소프트웨어 렌더링)에서 시작 점검 — 참고용
+        continue-on-error: true
+        run: |
+          pip install playwright
+          python3 -m playwright install --with-deps chromium
+          python3 -I tools/web_smoke_test.py build/web smoke_out 240
+      - name: 점검 결과(스크린샷/콘솔) 보관
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-smoke-result
+          path: smoke_out
+          if-no-files-found: ignore
+      - name: itch.io 업로드용 ZIP (index.html 이 ZIP 맨 위에 오도록)
+        run: |
+          cd build/web
+          zip -r -q ../../pyongyang-web-itch.zip .
+          cd ../..
+          unzip -l pyongyang-web-itch.zip | head -n 20
+          ls -la pyongyang-web-itch.zip
+      - name: itch.io 용 ZIP 보관 (Actions 화면에서 내려받기)
+        uses: actions/upload-artifact@v4
+        with:
+          name: pyongyang-web-itch
+          path: pyongyang-web-itch.zip
+      - name: GitHub Pages 용 파일 올리기
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/web
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    # Pages 설정이 안 되어 있거나 비공개 저장소라서 실패해도, 위의 itch.io ZIP 은 그대로 받을 수 있게 함
+    continue-on-error: true
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

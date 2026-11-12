@@ -1,0 +1,23 @@
+# Godot 오류 검사 워크플로 템플릿 — 한 번도 실행해 보지 못했습니다.
+# 확인되지 않은 부분: (1) 아래 다운로드 주소 형식이 4.7.2 에 실제로 맞는지, (2) 헤드리스 실행이 이 프로젝트에서 끝까지 되는지.
+# 쓰려면: 저장소를 GitHub 에 올리고 Actions 를 켠 뒤, 실패하면 로그를 그대로 보내 주세요.
+name: godot-check
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+env:
+  GODOT_VERSION: "4.7.2"
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Godot 내려받기 (주소 형식 미확인)
+        run: |
+          URL="https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip"
+          curl -fsSL -o godot.zip "$URL"
+          unzip -q godot.zip
+          mv "Godot_v${GODOT_VERSION}-stable_linux.x86_64" /usr/local/bin/godot || sudo mv "Godot_v${GODOT_VERSION}-stable_linux.x86_64" /usr/local/bin/godot
+      - name: 로그 기반 검사
+        run: bash tools/godot_check.sh godot

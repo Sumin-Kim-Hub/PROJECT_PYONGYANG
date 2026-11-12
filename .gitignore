@@ -1,0 +1,9 @@
+# Godot 4+ 자동 생성 폴더
+.godot/
+.import/
+# 빌드 결과물
+*.apk
+*.aab
+android/
+build/
+# export_presets.cfg 는 웹 내보내기용(비밀 없음)이라 저장소에 포함합니다. 안드로이드 키스토어 정보를 넣었다면 이 파일을 올리지 마세요.
